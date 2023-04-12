@@ -17,7 +17,6 @@ clients = {}
 parking_locations = {'Parking Location 1': True, 'Parking Location 2': True, 'Parking Location 3': True}
 
 # Function to handle incoming messages from clients
-# Function to handle incoming messages from clients
 def handle_client(client_socket, client_address):
     # Receive the client's username
     username = client_socket.recv(1024).decode()

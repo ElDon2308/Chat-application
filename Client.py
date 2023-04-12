@@ -21,6 +21,17 @@ def receive(client_socket):
 receive_thread = threading.Thread(target=receive, args=(client_socket,))
 receive_thread.start()
 
+
+#reserver a parking location
+def resSpot(sock):
+    spot= input("What spot would you like to reserve? :")
+    msg = f"reserve:{spot}"
+    sock.send(msg.encode("utf-8"))
+    
+    #waiting for ack from server
+    response= sock.recv(1024).decode("utf-8")
+    print (response)
+    
 # Function to get user input and send message to server
 def send_message(sock, username):
     while True:
@@ -28,7 +39,10 @@ def send_message(sock, username):
         message = input("Enter the message: ")
         if recipient == "server" and message == "list":
             msg = "list"
-            sock.send(msg.encode("utf-8"))
+            sock.send("List received".encode("utf-8")) 
+            sock.send(msg.encode("utf-8"))     
+        elif message == "reserve":
+            resSpot(sock)
         elif message == "quit":
             sock.close()
             break
@@ -41,6 +55,7 @@ def send_message(sock, username):
     if response != "Message sent":
         print("Error sending message")
 
+#reserve the parking space 
 while True:
     # Get the user's username
     username = input("Enter your username: ")
